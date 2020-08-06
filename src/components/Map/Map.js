@@ -6,32 +6,40 @@ const containerStyle = {
   height: '100vh',
 };
  
-const center = {
-  lat: -3.745,
-  lng: -38.523,
-};
- 
-function MyComponent() {
+function MyComponent(props) {
   const [map, setMap] = React.useState(null);
- 
+  const [current, setCurrent] = React.useState({lat: 0, lng:0});
+
   const onLoad = React.useCallback(function callback(map) {
     const bounds = new window.google.maps.LatLngBounds();
-    map.fitBounds(bounds);
+    map.fitBounds(bounds);  
     setMap(map);
   }, []);
+
+  React.useEffect(() => {
+    if (navigator && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(pos => {
+        const coords = pos.coords;
+        setCurrent({
+          lat: coords.latitude,
+          lng: coords.longitude,
+        });
+      });
+    }
+  });
  
   const onUnmount = React.useCallback(function callback(map) {
     setMap(null);
   }, []);
- 
+
   return (
     <LoadScript
       googleMapsApiKey="AIzaSyB0jeFpm7KXwieo16XlTucRtRriTPuZTtI"
     >
       <GoogleMap
         mapContainerStyle={containerStyle}
-        center={center}
-        zoom={10}
+        center={current}
+        zoom={1}
         onLoad={onLoad}
         onUnmount={onUnmount}
       >

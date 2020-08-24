@@ -19,13 +19,37 @@ function Map(props) {
 
   useEffect(() => {
     if (navigator && navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(pos => {
+      const watchId = navigator.geolocation.watchPosition(pos => {
         const coords = pos.coords;
+        markers.forEach((marker, i) => {
+          const earthRadius = 6371e3; // metres
+          const radiant1 = marker.props.position.lat * Math.PI/180;
+          const radiant2 = coords.latitude * Math.PI/180;
+          const dRadiantLat = (coords.latitude-marker.props.position.lat) * Math.PI/180;
+          const dRadiantLng = (coords.longitude-marker.props.position.lng) * Math.PI/180;
+
+          // Square of half the chord length between the points
+          const a = Math.sin(dRadiantLat/2) * Math.sin(dRadiantLat/2) +
+                    Math.cos(radiant1) * Math.cos(radiant2) *
+                    Math.sin(dRadiantLng/2) * Math.sin(dRadiantLng/2);
+          
+          // Angular distance in radiant
+          const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+          const dist = earthRadius * c; // in metres
+
+          // Trigger Alarm if dist is less than 100 meters
+          if(dist < 100) {
+          }
+        });
+
         setCurrent({
           lat: coords.latitude,
           lng: coords.longitude,
         });
       });
+
+      return () => navigator.geolocation.clearWatch(watchId);
     }
   });
  

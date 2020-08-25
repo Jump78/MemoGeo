@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect, memo } from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
- 
+import AudioPlayer from '../../service/Audio/Audio';
+
 const containerStyle = {
   width: '100vw',
   height: '100vh',
@@ -40,6 +41,7 @@ function Map(props) {
 
           // Trigger Alarm if dist is less than 100 meters
           if(dist < 100) {
+            AudioPlayer.play();
           }
         });
 

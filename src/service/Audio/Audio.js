@@ -16,6 +16,12 @@ export function play() {
   audioPlayer.play();
 }
 
+export function stop() {
+  audioPlayer.pause();
+  audioPlayer.currentTime = 0;
+}
+
 export default {
   play,
+  stop,
 };

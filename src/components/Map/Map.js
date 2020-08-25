@@ -65,7 +65,19 @@ function Map(props) {
       lng: event.latLng.lng(),
     };
 
-    const newMarker = <Marker position={position} key={Date.now()}/>;
+    const id = Date.now();
+    const newMarker = <Marker
+      position={position}
+      key={id}
+      id={id}
+      onClick={() => {
+        setMarkers((markers) => {
+          AudioPlayer.stop();
+          return markers.filter( current => current.props.id !== newMarker.props.id);
+        });
+      }}
+    />;
+
     const newMarkers = [...markers, newMarker];
     setMarkers(newMarkers);
   };

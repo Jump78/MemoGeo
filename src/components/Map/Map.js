@@ -75,9 +75,13 @@ function Map(props) {
       googleMapsApiKey="AIzaSyB0jeFpm7KXwieo16XlTucRtRriTPuZTtI"
     >
       <GoogleMap
+        options={{
+          maxZoom: 20,
+          minZoom: 17,
+
+        }}
         mapContainerStyle={containerStyle}
         center={current}
-        zoom={20}
         onLoad={onLoad}
         onUnmount={onUnmount}
         onClick={onClick}

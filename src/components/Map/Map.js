@@ -91,6 +91,7 @@ function Map(props) {
         options={{
           maxZoom: 20,
           minZoom: 17,
+          disableDefaultUI: true,
         }}
         mapContainerStyle={containerStyle}
         onLoad={onLoad}

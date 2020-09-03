@@ -85,7 +85,7 @@ function Map(props) {
 
   return (
     <LoadScript
-      googleMapsApiKey="AIzaSyB0jeFpm7KXwieo16XlTucRtRriTPuZTtI"
+      googleMapsApiKey={process.env.REACT_APP_GOOGLE_API_KEY}
     >
       <GoogleMap
         options={{

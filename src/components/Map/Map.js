@@ -15,8 +15,9 @@ function Map(props) {
   const onLoad = useCallback((map) => {
     const bounds = new window.google.maps.LatLngBounds();
     map.fitBounds(bounds);  
+    map.panTo(current);
     setMap(map);
-  }, []);
+  }, [current]);
 
   useEffect(() => {
     if (navigator && navigator.geolocation) {
@@ -90,15 +91,17 @@ function Map(props) {
         options={{
           maxZoom: 20,
           minZoom: 17,
-
         }}
         mapContainerStyle={containerStyle}
-        center={current}
         onLoad={onLoad}
         onUnmount={onUnmount}
         onClick={onClick}
       >
         { /* Child components, such as markers, info windows, etc. */ }
+        <Marker
+          position={current}
+          id='user'
+        />
         {[...markers]}
       </GoogleMap>
     </LoadScript>
